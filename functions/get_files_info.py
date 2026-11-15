@@ -1,6 +1,7 @@
+import os
 import os.path as path
 
-def get_files_info(working_directory: str, directory, str = ".") -> str:
+def get_files_info(working_directory: str, directory: str = ".") -> str:
     try:
 
         working_dir_path = path.abspath(working_directory)
@@ -10,10 +11,14 @@ def get_files_info(working_directory: str, directory, str = ".") -> str:
 
         if valid_target_dir == False:
             return f'Error: Cannot list "{directory}" as it is outside  the permitted working directory'
-        elif not path.isdir(directory):
+        elif not path.isdir(target_dir):
             return f'Error: "{directory}" is not a directory'
         else:
-            return f'Success: "{directory}" is within the working directory'
+            result = "Result for current directory:"
+            for file in os.listdir(target_dir):
+                result += f"\n  - {file}: file_size={path.getsize(path.join(target_dir, file))} bytes, is_dir={path.isdir(path.join(target_dir, file))}"
 
-    except Execption as e:
+            return result
+
+    except Exception as e:
           return f'Error: "{e}"'
