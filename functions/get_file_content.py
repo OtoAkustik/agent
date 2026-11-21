@@ -1,6 +1,23 @@
 from config import MAX_CHARS
 import os.path as path
 
+schema_get_file_content = {
+    "type": "function",
+    "function": {
+        "name": "get_file_content",
+        "description": "Gets the content of a specified file and returns it as text", 
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "file_path": {
+                    "type": "string",
+                    "description": "File path of file to return content from, relative to the working directory (default is the working directory itself)",
+                },
+            },
+        },
+    },
+}
+
 def get_file_content(working_directory: str, file_path: str) -> str:
     try:
 
@@ -20,7 +37,6 @@ def get_file_content(working_directory: str, file_path: str) -> str:
                 print(content)
                 if f.read(1):
                     content += f'...File "{file_path}" truncated at {MAX_CHARS} characters]'
-
             return content
 
     except Exception as e:
